@@ -3,7 +3,7 @@ import ThingForm from './ThingForm';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-const Things = ({ things, deleteThing }) => {
+const Things = ({ things, deleteThing, changeRank }) => {
 	return (
 		<div>
 			<h1>Things</h1>
@@ -12,8 +12,11 @@ const Things = ({ things, deleteThing }) => {
 					things.map(thing => {
 						return (
 							<li key={thing.id}>
-								{thing.name}
-								<button onClick={() => deleteThing(thing.id)}>X</button>
+								{thing.name} Current Rank ({thing.rank})
+								<hr />
+								<button onClick={() => changeRank(thing.id, thing.rank + 1)}>+ rank for {thing.name}</button>
+								<button onClick={() => changeRank(thing.id, thing.rank - 1)}>- rank for {thing.name}</button>
+								<button onClick={() => deleteThing(thing.id)}>Delete {thing.name}</button>
 							</li>
 						);
 					})
@@ -32,12 +35,18 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
+	async function changeRank(thingId, thingRank) {
+		const res = await axios.put(`/api/things/${thingId}/rank`, { rank: thingRank });
+		const updatedThing = res.data;
+		dispatch({ type: 'CHANGE_RANK', thingId, updatedThing });
+	}
 	async function deleteThing(id) {
 		await axios.delete(`api/things/${id}`);
 		dispatch({ type: 'DELETE_THING', thingId: id });
 	}
 	const obj = {
-		deleteThing
+		deleteThing,
+		changeRank
 	}
 	return obj;
 }

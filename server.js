@@ -26,11 +26,23 @@ app.get('/api/things', async (req, res, next) => {
 	}
 });
 
+app.put('/api/things/:id/rank', async (req, res, next) => {
+	try {
+		const thingToUpdate = await Thing.findByPk(req.params.id);
+		thingToUpdate.rank = req.body.rank;
+		await thingToUpdate.save();
+		res.send(thingToUpdate);
+	}
+	catch (ex) {
+		next(ex);
+	}
+})
+
 app.delete('/api/things/:id', async (req, res, next) => {
 	try {
 		const thingToDel = await Thing.findByPk(req.params.id);
 		await thingToDel.destroy();
-		res.sendStatus(201);
+		res.sendStatus(204);
 	}
 	catch (ex) {
 		next(ex);
@@ -50,7 +62,7 @@ app.delete('/api/users/:id', async (req, res, next) => {
 	try {
 		const userToDel = await User.findByPk(req.params.id);
 		await userToDel.destroy();
-		res.sendStatus(201);
+		res.sendStatus(204);
 	}
 	catch (ex) {
 		next(ex);

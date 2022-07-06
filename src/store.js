@@ -27,6 +27,10 @@ const store = createStore((state = initialState, action) => {
 		const newUsers = state.users.filter(user => user.id !== action.userId);
 		return { ...state, users: newUsers };
 	}
+	if (action.type === 'CHANGE_RANK') {
+		const thingArr = state.things.filter(item => item.id !== action.thingId);
+		return { ...state, things: [...thingArr, action.updatedThing] };
+	}
 	return state;
 });
 
