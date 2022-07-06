@@ -46,6 +46,17 @@ app.get('/api/users', async (req, res, next) => {
 	}
 });
 
+app.delete('/api/users/:id', async (req, res, next) => {
+	try {
+		const userToDel = await User.findByPk(req.params.id);
+		await userToDel.destroy();
+		res.sendStatus(201);
+	}
+	catch (ex) {
+		next(ex);
+	}
+});
+
 
 const port = process.env.PORT || 3000;
 

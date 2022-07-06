@@ -23,6 +23,10 @@ const store = createStore((state = initialState, action) => {
 		const newThings = state.things.filter(item => item.id !== action.thingId);
 		return { ...state, things: newThings };
 	}
+	if (action.type === 'DELETE_USER') {
+		const newUsers = state.users.filter(user => user.id !== action.userId);
+		return { ...state, users: newUsers };
+	}
 	return state;
 });
 
