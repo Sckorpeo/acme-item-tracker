@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 
+const newVar = null;
 
 const Users = ({ users, deleteUser }) => {
 	return (
