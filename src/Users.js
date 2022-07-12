@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const newVar = null;
+const anotherOne = null;
 
 const Users = ({ users, deleteUser }) => {
 	return (
